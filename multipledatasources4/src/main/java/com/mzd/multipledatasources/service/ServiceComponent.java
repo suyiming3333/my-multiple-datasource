@@ -71,6 +71,10 @@ public class ServiceComponent {
     }
 
 
+    /**
+     * @Transactional 只会处理主数据源事务，导致不同数据库事务都提交都同一个事务，两个记录会插到同一个库
+     * 需要引入jtaTransactionManager 处理
+     */
     @Transactional
     public void XATransationTest() {
 
@@ -91,6 +95,9 @@ public class ServiceComponent {
     }
 
 
+    /**
+     * 手动处理多数据源的事务
+     */
     public void XATransationTest2() {
 
         TestBean testBean = new TestBean();
@@ -122,6 +129,9 @@ public class ServiceComponent {
     }
 
 
+    /**
+     * 注解实现多数据源，事务管理
+     */
     @MultiTransactional(rollbackFor = RuntimeException.class)
     public void XATransationTest3(){
 
