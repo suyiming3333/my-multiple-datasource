@@ -4,12 +4,16 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sym.multipledatasources.bean.TeachersBean;
 import com.sym.multipledatasources.bean.TestBean;
 import com.sym.multipledatasources.dao.test01.TransactionDao1;
 import com.sym.multipledatasources.dao.test02.TransactionDao2;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 @Service
 public class TransactionService1 {
@@ -20,10 +24,23 @@ public class TransactionService1 {
 	@Autowired
 	private TransactionDao2 td2;
 
-	@Transactional
+	@Autowired
+	private PlatformTransactionManager primaryTransactionManager;
+
+//	@Transactional
 	public void savetestBean(TestBean t) {
-		ts1.save(t);
-		int i = 1 / 0;
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setIsolationLevel(TransactionDefinition.ISOLATION_REPEATABLE_READ);
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus status = primaryTransactionManager.getTransaction(def);
+		try{
+			ts1.save(t);
+			primaryTransactionManager.commit(status);
+//			int i = 1 / 0;
+		}catch (Exception e){
+			primaryTransactionManager.rollback(status);
+			e.printStackTrace();
+		}
 	}
 
 	@Transactional

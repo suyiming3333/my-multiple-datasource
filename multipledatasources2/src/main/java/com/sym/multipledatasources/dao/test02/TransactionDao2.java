@@ -13,6 +13,7 @@ public class TransactionDao2 {
 
 	public void save(TeachersBean t) {
 		tm2.save(t);
+		throw new RuntimeException("run time 2");
 	}
 
 }

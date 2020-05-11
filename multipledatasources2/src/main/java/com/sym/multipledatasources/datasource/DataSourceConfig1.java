@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 //表示这个类为一个配置类
 @Configuration
@@ -49,5 +51,10 @@ public class DataSourceConfig1 {
 	public SqlSessionTemplate test1sqlsessiontemplate(
 			@Qualifier("test1SqlSessionFactory") SqlSessionFactory sessionfactory) {
 		return new SqlSessionTemplate(sessionfactory);
+	}
+
+	@Bean(name = "primaryTransactionManager")
+	public PlatformTransactionManager primaryTransactionManager(@Qualifier("test1DataSource") DataSource test1DataSource) {
+		return new DataSourceTransactionManager(test1DataSource);
 	}
 }

@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @MapperScan(basePackages = "com.sym.multipledatasources.mapper.test02", sqlSessionFactoryRef = "test2SqlSessionFactory")
@@ -35,5 +37,10 @@ public class DataSourceConfig2 {
 	public SqlSessionTemplate test2sqlsessiontemplate(
 			@Qualifier("test2SqlSessionFactory") SqlSessionFactory sessionfactory) {
 		return new SqlSessionTemplate(sessionfactory);
+	}
+
+	@Bean(name = "secondaryTransactionManager")
+	public PlatformTransactionManager secondaryTransactionManager(@Qualifier("test2DataSource") DataSource test2DataSource) {
+		return new DataSourceTransactionManager(test2DataSource);
 	}
 }

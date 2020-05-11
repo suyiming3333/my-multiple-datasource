@@ -14,6 +14,7 @@ public class TransactionDao1 {
 
 	public void save(TestBean t) {
 		tm1.save(t);
+		throw new RuntimeException("run time ");
 	}
 
 }
