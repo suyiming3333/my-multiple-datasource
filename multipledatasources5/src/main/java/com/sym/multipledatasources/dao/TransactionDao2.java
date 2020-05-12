@@ -11,7 +11,7 @@ public class TransactionDao2 {
 	@Autowired
 	private TransactionMapping2 tm2;
 
-	public void save(TeachersBean t) {
+	public void test02save(TeachersBean t) {
 		tm2.save(t);
 	}
 

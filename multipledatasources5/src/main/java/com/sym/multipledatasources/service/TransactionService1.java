@@ -12,9 +12,9 @@ public class TransactionService1 {
 	@Autowired
 	private TransactionDao1 ts1;
 
-	@Transactional
+//	@Transactional
 	public void test01_saveTestBean(TestBean t) {
-		ts1.save(t);
+		ts1.test01save(t);
 //		throw new RuntimeException("运行时异常");
 	}
 

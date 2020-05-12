@@ -12,7 +12,7 @@ public class TransactionDao1 {
 	@Autowired
 	private TransactionMapping1 tm1;
 
-	public void save(TestBean t) {
+	public void test01save(TestBean t) {
 		tm1.save(t);
 	}
 

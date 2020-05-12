@@ -10,25 +10,25 @@ import com.sym.multipledatasources.datasource.DataSourceType.DataBaseType;
 @Aspect
 @Component
 public class DataSourceAop {
-	@Before("execution(* com.sym.multipledatasources.service..*.test01*(..))")
+	@Before("execution(* com.sym.multipledatasources.dao..*.test01*(..))")
 	public void setDataSource2test01() {
 		System.err.println("test01业务");
 		DataSourceType.setDataBaseType(DataBaseType.TEST01);
 	}
 
-	@After("execution(* com.sym.multipledatasources.service..*.test01*(..))")
+	@After("execution(* com.sym.multipledatasources.dao..*.test01*(..))")
 	public void clearDataSource2test01() {
 //		System.err.println("test01业务");
 		DataSourceType.clearDataBaseType();
 	}
 	
-	@Before("execution(* com.sym.multipledatasources.service..*.test02*(..))")
+	@Before("execution(* com.sym.multipledatasources.dao..*.test02*(..))")
 	public void setDataSource2test02() {
 		System.err.println("test02业务");
 		DataSourceType.setDataBaseType(DataBaseType.TEST02);
 	}
 
-	@After("execution(* com.sym.multipledatasources.service..*.test02*(..))")
+	@After("execution(* com.sym.multipledatasources.dao..*.test02*(..))")
 	public void clearDataSource2test02() {
 //		System.err.println("test02业务");
 		DataSourceType.clearDataBaseType();

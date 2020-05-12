@@ -64,6 +64,12 @@ public class TransactionController {
 		serviceComponent.XATransationTest();
 		return "success";
 	}
+	@RequestMapping("/doDiffrentTx")
+	public String doDiffrentTx(){
+		serviceComponent.doDiffrentTx();
+		return "success";
+	}
+
 
 
 

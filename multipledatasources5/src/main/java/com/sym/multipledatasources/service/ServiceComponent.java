@@ -148,4 +148,20 @@ public class ServiceComponent {
         transactionService2.test02_saveTeachersBean(teachersBean);
 //        int i = 1/0;//此处会抛异常，service1,service2事务都会回滚
     }
+
+//    @Transactional
+    public void doDiffrentTx(){
+        TestBean testBean = new TestBean();
+        testBean.setClassid("10086");
+        testBean.setId("122");
+        testBean.setScore(99);
+        testBean.setUserid("10000");
+
+        TeachersBean teachersBean = new TeachersBean();
+        teachersBean.setClassid("10088");
+        teachersBean.setId("1233");
+        teachersBean.setTeachername("装载机昂老是");
+        transactionDao1.test01save(testBean);
+        transactionDao2.test02save(teachersBean);
+    }
 }

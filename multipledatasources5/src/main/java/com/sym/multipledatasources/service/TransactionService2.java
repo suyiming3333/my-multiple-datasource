@@ -12,9 +12,9 @@ public class TransactionService2 {
 	@Autowired
 	private TransactionDao2 ts2;
 
-	@Transactional
+//	@Transactional
 	public void test02_saveTeachersBean(TeachersBean t) {
-		ts2.save(t);
+		ts2.test02save(t);
 //		throw new RuntimeException("运行时异常");
 
 	}

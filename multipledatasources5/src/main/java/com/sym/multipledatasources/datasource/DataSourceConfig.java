@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.sql.DataSource;
+
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -23,15 +25,15 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class DataSourceConfig {
 	@Primary
 	@Bean(name = "test1DataSource")
-	@ConfigurationProperties(prefix = "spring.datasource.test1")
+	@ConfigurationProperties(prefix = "spring.datasource.druid.one")
 	public DataSource getDateSource1() {
-		return DataSourceBuilder.create().build();
+		return DruidDataSourceBuilder.create().build();
 	}
 
 	@Bean(name = "test2DataSource")
-	@ConfigurationProperties(prefix = "spring.datasource.test2")
+	@ConfigurationProperties(prefix = "spring.datasource.druid.two")
 	public DataSource getDateSource2() {
-		return DataSourceBuilder.create().build();
+		return DruidDataSourceBuilder.create().build();
 	}
 
 	@Bean(name = "dynamicDataSource")
@@ -58,8 +60,8 @@ public class DataSourceConfig {
 	}
 
 
-	@Bean
-	public DataSourceTransactionManager transactionManager(@Qualifier("dynamicDataSource") DataSource dynamicDataSource) {
-		return new DataSourceTransactionManager(dynamicDataSource);
-	}
+//	@Bean
+//	public DataSourceTransactionManager transactionManager(@Qualifier("dynamicDataSource") DataSource dynamicDataSource) {
+//		return new DataSourceTransactionManager(dynamicDataSource);
+//	}
 }
