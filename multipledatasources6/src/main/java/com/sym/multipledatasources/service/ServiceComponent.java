@@ -6,6 +6,7 @@ import com.sym.multipledatasources.dao.TransactionDao1;
 import com.sym.multipledatasources.dao.TransactionDao2;
 import com.sym.multipledatasources.datasource.MultiTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,12 @@ public class ServiceComponent {
 
     @Autowired
     private TransactionDao2 transactionDao2;
+
+    @Autowired
+    private JdbcTemplate test1JdbcTemplate;
+
+    @Autowired
+    private JdbcTemplate test2JdbcTemplate;
 
     /**
      * 分布式事务的问题(一)
@@ -167,4 +174,15 @@ public class ServiceComponent {
         transactionDao2.test02save(teachersBean);
         int i = 1/0;
     }
+
+    @Transactional
+    public void doDiffrentTxByJdbcTemplate(){
+        test1JdbcTemplate.execute("insert into cs_test values('1233', '12123',99,'10086')");
+        test2JdbcTemplate.execute("insert into cs_teacher values('1244','asdqwe','10098') ");
+        if (true){
+            throw new RuntimeException("yes , throw one exception");
+        }
+    }
+
+
 }

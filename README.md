@@ -18,4 +18,5 @@ multipledatasources5：
 
 multipledatasources6
 
-重写Transact接口，实现同一个@Transcational声明对不同数据源事务处理生效(自动切换数据库连接，从而实现切换事务管理器)但事务提交、回滚失败仍待解决
+重写Transact接口，实现同一个@Transcational声明对不同数据源事务处理生效(自动切换数据库连接，从而实现切换事务管理器)但事务提交、回滚失败仍待解决。
+jdbctempalte 实现链式事务管理。

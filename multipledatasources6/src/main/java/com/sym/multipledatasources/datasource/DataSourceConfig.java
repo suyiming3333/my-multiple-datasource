@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.data.transaction.ChainedTransactionManager;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -61,14 +62,24 @@ public class DataSourceConfig {
 		return bean.getObject();
 	}
 
-//	@Bean
-//	public PlatformTransactionManager transactionManager(){
-//		DataSourceTransactionManager test1TM = new DataSourceTransactionManager(getDateSource1());
-////		test1TM.setDataSource(getDateSource1());//这不是从容器中或获取
-//		DataSourceTransactionManager test2TM = new DataSourceTransactionManager(getDateSource2());
-//		ChainedTransactionManager chainedTransactionManager = new ChainedTransactionManager(test1TM,test2TM);
-//		return chainedTransactionManager;
-//	}
+	@Bean
+	public JdbcTemplate test1JdbcTemplate(@Qualifier("test1DataSource") DataSource test1DataSource){
+		return new JdbcTemplate(test1DataSource);
+	}
+
+	@Bean
+	public JdbcTemplate test2JdbcTemplate(@Qualifier("test2DataSource") DataSource test2DataSource){
+		return new JdbcTemplate(test2DataSource);
+	}
+
+	@Bean
+	public PlatformTransactionManager transactionManager(){
+		DataSourceTransactionManager test1TM = new DataSourceTransactionManager(getDateSource1());
+//		test1TM.setDataSource(getDateSource1());//这不是从容器中或获取
+		DataSourceTransactionManager test2TM = new DataSourceTransactionManager(getDateSource2());
+		ChainedTransactionManager chainedTransactionManager = new ChainedTransactionManager(test1TM,test2TM);
+		return chainedTransactionManager;
+	}
 
 
 	/**

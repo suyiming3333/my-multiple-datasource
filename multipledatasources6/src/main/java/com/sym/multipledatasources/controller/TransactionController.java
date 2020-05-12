@@ -70,6 +70,12 @@ public class TransactionController {
 		return "success";
 	}
 
+	@RequestMapping("/doDiffrentTxByJdbcTemplate")
+	public String doDiffrentTxByJdbcTemplate(){
+		serviceComponent.doDiffrentTxByJdbcTemplate();
+		return "success";
+	}
+
 
 
 
