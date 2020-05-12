@@ -15,3 +15,7 @@ multipledatasources4：
 
 multipledatasources5：
 通过aop的方式实现动态数据库切换，事务管理器通过动态数据源创建，默认只处理主数据源的事务
+
+multipledatasources6
+
+重写Transact接口，实现同一个@Transcational声明对不同数据源事务处理生效(自动切换数据库连接，从而实现切换事务管理器)但事务提交、回滚失败仍待解决
