@@ -17,11 +17,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.data.transaction.ChainedTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@MapperScan(basePackages = "com.sym.multipledatasources.mapper", sqlSessionFactoryRef = "SqlSessionFactory")
+@MapperScan(basePackages = "com.sym.multipledatasources.mapper",sqlSessionFactoryRef = "SqlSessionFactory")
 public class DataSourceConfig {
 	@Primary
 	@Bean(name = "test1DataSource")
@@ -50,18 +51,50 @@ public class DataSourceConfig {
 	}
 
 	@Bean(name = "SqlSessionFactory")
-	public SqlSessionFactory test1SqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dynamicDataSource)
+	public SqlSessionFactory SqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dynamicDataSource)
 			throws Exception {
 		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
 		bean.setDataSource(dynamicDataSource);
 		bean.setMapperLocations(
-				new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/*.xml"));
+				new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/**/*.xml"));
 		return bean.getObject();
 	}
-
+//	@Primary
+//	@Bean(name = "SqlSessionFactory")
+//	public SqlSessionFactory test1SqlSessionFactory(@Qualifier("test1DataSource") DataSource test1DataSource)
+//			throws Exception {
+//		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+//		bean.setDataSource(test1DataSource);
+//		bean.setMapperLocations(
+//				new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/dbone/*.xml"));
+//		return bean.getObject();
+//	}
+//
+//	@Bean(name = "SqlSessionFactory")
+//	public SqlSessionFactory test2SqlSessionFactory(@Qualifier("test2DataSource") DataSource test2DataSource)
+//			throws Exception {
+//		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+//		bean.setDataSource(test2DataSource);
+//		bean.setMapperLocations(
+//				new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/dbtwo/*.xml"));
+//		return bean.getObject();
+//	}
 
 //	@Bean
-//	public DataSourceTransactionManager transactionManager(@Qualifier("dynamicDataSource") DataSource dynamicDataSource) {
-//		return new DataSourceTransactionManager(dynamicDataSource);
+//	public PlatformTransactionManager transactionManager(){
+//		DataSourceTransactionManager test1TM = new DataSourceTransactionManager(getDateSource1());
+////		test1TM.setDataSource(getDateSource1());//这不是从容器中或获取
+//		DataSourceTransactionManager test2TM = new DataSourceTransactionManager(getDateSource2());
+//		ChainedTransactionManager chainedTransactionManager = new ChainedTransactionManager(test1TM,test2TM);
+//		return chainedTransactionManager;
 //	}
+
+
+	/**
+	 * 不添加事务管理器事务不生效；
+	 */
+	@Bean(name = "transactionManager")
+	public DataSourceTransactionManager transactionManager(@Qualifier("dynamicDataSource") DataSource dynamicDataSource) {
+		return new DataSourceTransactionManager(dynamicDataSource);
+	}
 }
